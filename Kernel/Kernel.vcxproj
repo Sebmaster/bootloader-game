@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C3954583-4863-4721-8639-E4ADA2066C52}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeOutput>floppy.img</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>del /S /Q "$(Configuration)\\*"
+del floppy.img
+ml.exe /omf /c /Fo"$(Configuration)\\" bootloader.asm
+dmc.exe -5 -mt -c -o+space stage1.cpp -o"$(Configuration)\\"
+link.exe /TINY  "$(Configuration)\\bootloader.obj"  "$(Configuration)\\stage1.obj"
+dd if=/dev/zero of=floppy.img bs=1440k count=1
+dd if=bootloader.com of=floppy.img bs=510 count=1
+dd if=bootloader_bytes.bin of=floppy.img seek=510 bs=1 count=2</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeOutput>floppy.img</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>del /S /Q "$(Configuration)\\*"
+del floppy.img
+ml.exe /omf /c /Fo"$(Configuration)\\" bootloader.asm
+dmc.exe -5 -mt -c -o+space -o"$(Configuration)\\" stage1.cpp
+link.exe /TINY  "$(Configuration)\\bootloader.obj"  "$(Configuration)\\stage1.obj"
+dd if=/dev/zero of=floppy.img bs=1440k count=1
+dd if=bootloader.com of=floppy.img bs=510 count=1
+dd if=bootloader_bytes.bin of=floppy.img seek=510 bs=1 count=2</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="bootloader_bytes.bin" />
+    <None Include="bootloader.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdlib.cpp" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="stage1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdlib.h" />
+    <ClInclude Include="Display.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

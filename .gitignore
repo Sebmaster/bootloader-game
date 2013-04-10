@@ -1,0 +1,20 @@
+# user configs
+*.suo
+*.sdf
+*.user
+
+# build folders
+obj
+build
+Debug
+Release
+
+# build tools
+dmc.exe
+scppn.exe
+link.exe
+dd.exe
+
+# build output
+floppy.img
+bootloader.com
