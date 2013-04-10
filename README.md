@@ -44,4 +44,6 @@ The build process relies on quite old software.
 * link.exe, the 16-bit linker of Microsoft
 * dd.exe for windows from [chrysocome.net](http://www.chrysocome.net/dd)
 
-Either add them to your path or drop them into the kernel directory, open the project in Visual Studio and run (F5; bochs path fixed for v2.6.1).
+Either add them to your path or drop them into the kernel directory, open the project in Visual Studio and build (F6).
+
+Afterwards you can run the file with the included bochsrc.bxrc in Bochs.
