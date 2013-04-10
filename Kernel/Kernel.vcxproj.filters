@@ -21,22 +21,8 @@
     <None Include="bootloader_bytes.bin" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Display.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="stdlib.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="stage1.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Display.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="stdlib.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
