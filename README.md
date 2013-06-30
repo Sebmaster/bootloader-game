@@ -41,7 +41,7 @@ The build process relies on quite old software.
 
 * ml.exe, the MASM compiler of Microsoft (included in Visual Studio installations)
 * dmc.exe, the C(++) compiler of [Digitalmars](http://www.digitalmars.com/download/freecompiler.html)
-* link.exe, the 16-bit linker of Microsoft
+* link.exe, the 16-bit linker of [Microsoft](ftp://ftp.microsoft.com/Softlib/MSLFILES/LNK563.exe) (extract with 7-zip or similiar).
 * dd.exe for windows from [chrysocome.net](http://www.chrysocome.net/dd)
 
 Either add them to your path or drop them into the kernel directory, open the project in Visual Studio and build (F6).
