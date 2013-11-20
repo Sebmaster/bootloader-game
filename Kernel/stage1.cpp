@@ -23,6 +23,7 @@ Node* lastNode = NULL;
 void setChar(char x, char y, char chr) {
 	short offsetPtr = (y * 80 + x) * 2;
 
+#ifdef ___MSC_VER
 	__asm {
 		mov DX, 0B800h; // 0xB800 in segment register => video ram
 		mov ES, DX;
@@ -31,6 +32,17 @@ void setChar(char x, char y, char chr) {
 		mov BX, offsetPtr;
 		mov word ptr ES:[BX], AX;
 	}
+#else
+	asm("mov DX, 0x0B800\n"
+	    "mov ES, DX\n"
+	    "mov AL, %[chr]\n"
+	    "mov AH, 5\n"
+	    //"mov EBX, %[offsetPtr]\n"
+	    //"mov ES:[EBX], AX\n" 
+	    :
+	    : [chr]"r"(chr), [offsetPtr]"r"(offsetPtr)
+	);
+#endif
 }
 
 Node* CreatePoint(char x, char y) {
@@ -63,7 +75,8 @@ void MovePlayerPosition(char deltaX, char deltaY) {
 	moveFirst = true;
 }
 
-extern "C" void KMain() {
+extern "C" void _KMain() {
+#ifdef ___MSC_VER
 	__asm {
 		mov AX, 03h;
 		int 10h;
@@ -72,14 +85,21 @@ extern "C" void KMain() {
 		mov AX, 256;
 		int 10h;
 	}
+#else
+	asm ("mov AX, 0x03\n"
+	     "int 0x10\n"
+	     "mov CX, 0x02000\n"
+	     "mov AX, 256\n"
+	     "int 0x10\n");
+#endif
 
 	firstNode = CreatePoint(0, 0);
 	lastNode = firstNode;
 	setChar(0, 0, 'X');
 }
 
-char restFreq = 0;
-extern "C" void TimerInterrupt() {
+short restFreq = 0;
+extern "C" void _TimerInterrupt() {
 	if (restFreq != 0) {
 		--restFreq;
 		return;
@@ -103,7 +123,7 @@ extern "C" void TimerInterrupt() {
 	}
 }
 
-extern "C" void KeyboardInterrupt(short key) {
+extern "C" void _KeyboardInterrupt(short key) {
 	if (key & 128) return;
 
 	switch (key & 127) {

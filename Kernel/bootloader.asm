@@ -8,7 +8,7 @@ extrn _TimerInterrupt:near
 .code
 	org 7C00h
 
-main:
+_main:
 	cli
 	mov AX, CS
 	mov ES, AX
@@ -44,4 +44,4 @@ KeyboardInterrupt proc near
 	iret
 KeyboardInterrupt ENDP
 
-END main
+END _main
