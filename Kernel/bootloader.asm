@@ -2,46 +2,36 @@
 .586
 
 extrn _KMain:near
-extrn _KeyboardInterrupt:near
-extrn _TimerInterrupt:near
 
 .code
-	org 7C00h
-
-_main:
-	cli
-	mov AX, CS
-	mov ES, AX
+	org 07C00h
 	
-	mov [es:(4 * 8)], TimerInterrupt
-	mov [es:(4 * 8 + 2)], CS
+_main:
+	jmp short start
+	nop
 
-	mov [es:(4 * 9)], KeyboardInterrupt
-	mov [es:(4 * 9 + 2)], CS
-	sti
+dosOEM		DB	'MSDOS5.0'
+dosBPS		DW	512
+dosSPC		DB	1
+dosRES		DW	1
+dosTBLs		DB	2
+dosRENT		DW	0F0h
+dosSECs		DW	2880
+dosMED		DB	0F0h
+dosSPF		DW	9
+dosSPT		DW	18
+dosHPC		DW	2
+dosHS		DD	0
+dosTSECs	DD	0
+
+start:
+	cli
+	xor	ax, ax
+	mov	ds, ax
+	mov	ss, ax
+	mov	sp, 07C00h
+	mov	bp, sp
 
 	call _KMain
-
-	jmp $
-
-TimerInterrupt proc near
-	call _TimerInterrupt
-
-	mov AL, 20h
-	out 20h, AL
-	iret
-TimerInterrupt ENDP
-
-KeyboardInterrupt proc near
-	in AL, 60h
-
-	push AX
-	call _KeyboardInterrupt
-	pop AX
-
-	mov AL, 20h
-	out 20h, AL
-	iret
-KeyboardInterrupt ENDP
-
+	hlt
 END _main
