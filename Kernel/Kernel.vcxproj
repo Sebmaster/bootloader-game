@@ -39,13 +39,12 @@
     <NMakeOutput>floppy.img</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeBuildCommandLine>del /S /Q "$(Configuration)\\*"
-del floppy.img
 ml.exe /omf /c /Fo"$(Configuration)\\" bootloader.asm
 dmc.exe -5 -mt -c -o+space stage1.cpp -o"$(Configuration)\\"
-link.exe /TINY  "$(Configuration)\\bootloader.obj"  "$(Configuration)\\stage1.obj"
-dd if=/dev/zero of=floppy.img bs=1440k count=1
-dd if=bootloader.com of=floppy.img bs=510 count=1
-dd if=bootloader_bytes.bin of=floppy.img seek=510 bs=1 count=2</NMakeBuildCommandLine>
+link.exe /TINY  "$(Configuration)\\bootloader.obj"  "$(Configuration)\\stage1.obj" ,"$(Configuration)\\bootloader.com"
+dd if=/dev/zero of=$(Configuration)\floppy.img bs=1440k count=1
+dd if=$(Configuration)\bootloader.com of=$(Configuration)\floppy.img bs=510 count=1
+dd if=bootloader_bytes.bin of=$(Configuration)\floppy.img seek=510 bs=1 count=2</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>
     </NMakeReBuildCommandLine>
   </PropertyGroup>
@@ -56,10 +55,10 @@ dd if=bootloader_bytes.bin of=floppy.img seek=510 bs=1 count=2</NMakeBuildComman
 del floppy.img
 ml.exe /omf /c /Fo"$(Configuration)\\" bootloader.asm
 dmc.exe -5 -mt -c -o+space -o"$(Configuration)\\" stage1.cpp
-link.exe /TINY  "$(Configuration)\\bootloader.obj"  "$(Configuration)\\stage1.obj"
-dd if=/dev/zero of=floppy.img bs=1440k count=1
-dd if=bootloader.com of=floppy.img bs=510 count=1
-dd if=bootloader_bytes.bin of=floppy.img seek=510 bs=1 count=2</NMakeBuildCommandLine>
+link.exe /TINY  "$(Configuration)\\bootloader.obj"  "$(Configuration)\\stage1.obj", "$(Configuration)\\bootloader.com"
+dd if=/dev/zero of=$(Configuration)\floppy.img bs=1440k count=1
+dd if=bootloader.com of=$(Configuration)\floppy.img bs=510 count=1
+dd if=bootloader_bytes.bin of=$(Configuration)\floppy.img seek=510 bs=1 count=2</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>
     </NMakeReBuildCommandLine>
   </PropertyGroup>
